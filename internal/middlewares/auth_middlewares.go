@@ -20,7 +20,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			if err != nil {
 				c.AbortWithStatusJSON(http.StatusInternalServerError, res.ErrorResponse{
 					Message: "Failed to generate token",
-					Status:  http.StatusInternalServerError,
 					Error:   err.Error(),
 				})
 				return
@@ -36,7 +35,6 @@ func AuthMiddleware() gin.HandlerFunc {
 		if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, res.ErrorResponse{
 				Message: "Unauthorized",
-				Status:  http.StatusUnauthorized,
 				Error:   "invalid token format",
 			})
 			return
@@ -47,7 +45,6 @@ func AuthMiddleware() gin.HandlerFunc {
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, res.ErrorResponse{
 				Message: "Unauthorized",
-				Status:  http.StatusUnauthorized,
 				Error:   err.Error(),
 			})
 			return
@@ -58,7 +55,6 @@ func AuthMiddleware() gin.HandlerFunc {
 		} else {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, res.ErrorResponse{
 				Message: "Invalid token claims",
-				Status:  http.StatusUnauthorized,
 				Error:   "user_id claim missing or invalid",
 			})
 			return

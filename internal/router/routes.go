@@ -10,7 +10,11 @@ import (
 	"task-backend/internal/res"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/requestid"
 	"github.com/gin-gonic/gin"
+	"github.com/ulule/limiter/v3"
+	mgin "github.com/ulule/limiter/v3/drivers/middleware/gin"
+	memory "github.com/ulule/limiter/v3/drivers/store/memory"
 )
 
 func RegisterRoutes(taskHandler *handlers.TaskHandler) http.Handler {
@@ -25,6 +29,14 @@ func RegisterRoutes(taskHandler *handlers.TaskHandler) http.Handler {
 
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
+	r.Use(requestid.New())
+
+	rate, err := limiter.NewRateFromFormatted("5-M")
+	if err != nil {
+		log.Fatalf("Invalid rate limit format: %v", err)
+	}
+	store := memory.NewStore()
+	r.Use(mgin.NewMiddleware(limiter.New(store, rate)))
 
 	corsOrigin := os.Getenv("CORS")
 	if corsOrigin == "" {
@@ -51,7 +63,6 @@ func RegisterRoutes(taskHandler *handlers.TaskHandler) http.Handler {
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusNotFound, res.ErrorResponse{
 			Message: "Route not found",
-			Status:  http.StatusNotFound,
 			Error:   "invalid route",
 		})
 	})

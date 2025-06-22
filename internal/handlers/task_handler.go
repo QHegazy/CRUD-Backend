@@ -20,7 +20,6 @@ func (h *TaskHandler) GetAllTasks(c *gin.Context) {
 	if !exists {
 		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
 			Message: "Failed to retrieve user ID",
-			Status:  http.StatusInternalServerError,
 			Error:   "invalid id",
 		})
 		return
@@ -30,7 +29,6 @@ func (h *TaskHandler) GetAllTasks(c *gin.Context) {
 	if !ok {
 		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
 			Message: "Invalid user ID type",
-			Status:  http.StatusInternalServerError,
 			Error:   "type assertion failed",
 		})
 		return
@@ -39,7 +37,6 @@ func (h *TaskHandler) GetAllTasks(c *gin.Context) {
 	tasks := h.TaskService.GetAllTasks(ctx, userID)
 	c.JSON(http.StatusOK, res.SuccessResponse{
 		Message: "All tasks retrieved",
-		Status:  http.StatusOK,
 		Data:    tasks,
 	})
 }
@@ -49,7 +46,6 @@ func (h *TaskHandler) GetTaskByID(c *gin.Context) {
 	if !exists {
 		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
 			Message: "Failed to retrieve user ID",
-			Status:  http.StatusInternalServerError,
 			Error:   "invalid id",
 		})
 		return
@@ -61,7 +57,6 @@ func (h *TaskHandler) GetTaskByID(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, res.ErrorResponse{
 			Message: "Invalid task ID",
-			Status:  http.StatusBadRequest,
 			Error:   err.Error(),
 		})
 		return
@@ -71,7 +66,6 @@ func (h *TaskHandler) GetTaskByID(c *gin.Context) {
 	if !found {
 		c.JSON(http.StatusNotFound, res.ErrorResponse{
 			Message: "Task not found",
-			Status:  http.StatusNotFound,
 			Error:   "invalid id",
 		})
 		return
@@ -79,7 +73,6 @@ func (h *TaskHandler) GetTaskByID(c *gin.Context) {
 
 	c.JSON(http.StatusOK, res.SuccessResponse{
 		Message: "Task retrieved",
-		Status:  http.StatusOK,
 		Data:    task,
 	})
 }
@@ -90,7 +83,6 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	if err := c.ShouldBindJSON(&newTask); err != nil {
 		c.JSON(http.StatusBadRequest, res.ErrorResponse{
 			Message: "Invalid request body",
-			Status:  http.StatusBadRequest,
 			Error:   err.Error(),
 		})
 		return
@@ -99,7 +91,6 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	if err := newTask.Validate(); err != nil {
 		c.JSON(http.StatusBadRequest, res.ErrorResponse{
 			Message: "Validation failed",
-			Status:  http.StatusBadRequest,
 			Error:   err,
 		})
 		return
@@ -109,7 +100,6 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	if !exists {
 		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
 			Message: "Failed to retrieve user ID",
-			Status:  http.StatusInternalServerError,
 			Error:   "invalid id",
 		})
 		return
@@ -120,7 +110,6 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, res.SuccessResponse{
 		Message: "Task created",
-		Status:  http.StatusCreated,
 		Data:    created,
 	})
 }
@@ -130,7 +119,6 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	if !exists {
 		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
 			Message: "Failed to retrieve user ID",
-			Status:  http.StatusInternalServerError,
 			Error:   "invalid id",
 		})
 		return
@@ -142,7 +130,6 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, res.ErrorResponse{
 			Message: "Invalid task ID",
-			Status:  http.StatusBadRequest,
 			Error:   err.Error(),
 		})
 		return
@@ -152,7 +139,6 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	if err := c.ShouldBindJSON(&updateData); err != nil {
 		c.JSON(http.StatusBadRequest, res.ErrorResponse{
 			Message: "Invalid request body",
-			Status:  http.StatusBadRequest,
 			Error:   err.Error(),
 		})
 		return
@@ -162,7 +148,6 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	if !ok {
 		c.JSON(http.StatusNotFound, res.ErrorResponse{
 			Message: "Task not found",
-			Status:  http.StatusNotFound,
 			Error:   "invalid id",
 		})
 		return
@@ -170,7 +155,6 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, res.SuccessResponse{
 		Message: "Task updated",
-		Status:  http.StatusOK,
 		Data:    updated,
 	})
 }
@@ -180,7 +164,6 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 	if !exists {
 		c.JSON(http.StatusInternalServerError, res.ErrorResponse{
 			Message: "Failed to retrieve user ID",
-			Status:  http.StatusInternalServerError,
 			Error:   "invalid id",
 		})
 		return
@@ -192,7 +175,6 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, res.ErrorResponse{
 			Message: "Invalid task ID",
-			Status:  http.StatusBadRequest,
 			Error:   err.Error(),
 		})
 		return
@@ -202,7 +184,6 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 	if !ok {
 		c.JSON(http.StatusNotFound, res.ErrorResponse{
 			Message: "Task not found",
-			Status:  http.StatusNotFound,
 			Error:   "invalid id",
 		})
 		return
@@ -210,7 +191,6 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, res.SuccessResponse{
 		Message: "Task deleted",
-		Status:  http.StatusOK,
 		Data:    nil,
 	})
 }
