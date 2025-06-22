@@ -1,7 +1,8 @@
 package models
 
 type Task struct {
-	ID          string
+	ID          uint64
+	UserID      string
 	Title       string
 	Description string
 }
