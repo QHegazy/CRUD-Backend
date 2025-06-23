@@ -55,6 +55,16 @@ A simple task management application backend written in Go, providing a RESTful 
 
 ---
 
+## ⚡ Quick Start with Docker Hub Image
+
+If you want to run the backend immediately without building locally, you can use the prebuilt Docker image hosted on Docker Hub.
+
+### 🐳 Run the Docker Image
+
+```bash
+docker run -p 8080:8080 mohamedahegazy/task-backend:latest
+```
+---
 ## 🔧 Setup & Run (Local)
 
 1. **Clone the repository**:
